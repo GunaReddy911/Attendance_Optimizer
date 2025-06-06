@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holidays List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Public Holidays</h1>
+            <p>Holidays between <b>{{ start_date }}</b> and <b>{{ end_date }}</b></p>
+        </div>
+        <div class="results">
+            <ul>
+                {% for holiday in holidays %}
+                    <li>{{ holiday.strftime('%A, %d %B %Y') }}</li>
+                {% else %}
+                    <li>No public holidays in this range.</li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('homepage') }}">
+                <button type="button">Back</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
