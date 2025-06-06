@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Optimizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Smart Attendance Optimizer</h1>
+            <p>Calculate how many classes you need to attend to maintain 75% attendance</p>
+        </div>
+
+        {% if error %}
+            <div class="error">
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+
+        <form method="POST" action="/">
+            <div class="form-group">
+                <label for="start_date">📆 Start Date:</label>
+                <input type="date" id="start_date" name="start_date" required value="{{ start_date }}">
+            </div>
+
+            <div class="form-group">
+                <label for="end_date">📆 End Date:</label>
+                <input type="date" id="end_date" name="end_date" required value="{{ end_date }}">
+            </div>
+
+            <div class="form-group">
+                <label for="classes_per_day">📚 Classes per Day:</label>
+                <input type="number" id="classes_per_day" name="classes_per_day" min="1" required value="{{ classes_per_day }}">
+            </div>
+
+            <button type="submit">Calculate</button>
+        </form>
+
+        {% if result %}
+            <div class="results">
+                <h2>📊 Your Attendance Summary</h2>
+                <div class="result-item">
+                    <span>Total Working Days:</span>
+                    <strong>{{ result.working_days }}</strong>
+                </div>
+                <div class="result-item">
+                    <span>Total Classes:</span>
+                    <strong>{{ result.total_classes }}</strong>
+                </div>
+                <div class="result-item highlight">
+                    <span>Classes needed for 75%:</span>
+                    <strong>{{ result.required_classes }}</strong>
+                </div>
+                <!-- Holidays List Button -->
+                <a href="{{ url_for('holidays_page', start_date=result.start_date, end_date=result.end_date) }}">
+                    <button type="button">Holidays List</button>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
